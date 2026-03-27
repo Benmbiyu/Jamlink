@@ -128,3 +128,29 @@ AOS.init({
     easing: "ease",
     once: true, // whether animation should happen only once - while scrolling down
 });
+
+// EmailJS SDK
+(function() {
+        // Initialize EmailJS with your Public Key
+        emailjs.init({
+            publicKey: "nXZJLm5ZeT-D3Dwbk"   // EmailJS Public Key
+        });
+    })();
+
+// Handle form submission
+document.getElementById("contact-form").addEventListener("submit", function(event) {
+    event.preventDefault();   // Stop page reload
+
+    const messageDiv = document.getElementById("contact-message");
+
+// Replace these with your actual IDs from EmailJS
+emailjs.sendForm("service_fek6b8l", "template_vmw18xw", this)
+    .then(() => {
+        messageDiv.innerHTML = `<div class="alert alert-success">✅ Message sent successfully! We'll reply soon.</div>`;
+        document.getElementById("contact-form").reset();   // Clear the form
+    })
+    .catch((error) => {
+        console.error("EmailJS error:", error);
+        messageDiv.innerHTML = `<div class="alert alert-danger">❌ Oops! Something went wrong. Please try again.</div>`;
+    });
+});
